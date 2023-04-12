@@ -31,7 +31,7 @@ func (c *Container) Add(components ...component.Component) {
 
 // Serve 启动容器
 func (c *Container) Serve() {
-	log.Debug(fmt.Sprintf("Welcome to the due framework %s, Learn more at %s", Version, Website))
+	log.Debug(fmt.Sprintf("Welcome to the mvta framework %s, Learn more at %s", Version, Website))
 
 	for _, comp := range c.components {
 		comp.Init()
