@@ -1,0 +1,60 @@
+package node
+
+import (
+	"context"
+	ep "github.com/bitini111/mvta/internal/endpoint"
+	"github.com/bitini111/mvta/transport"
+	cli "github.com/bitini111/mvta/transport/grpc/internal/client"
+	"github.com/bitini111/mvta/transport/grpc/internal/code"
+	"github.com/bitini111/mvta/transport/grpc/internal/pb"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/encoding/gzip"
+	"google.golang.org/grpc/status"
+)
+
+type Client struct {
+	client pb.NodeClient
+}
+
+func NewClient(ep *ep.Endpoint, opts *cli.Options) (*Client, error) {
+	target := "direct://" + ep.Address()
+
+	cc, err := cli.Dial(target, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Client{client: pb.NewNodeClient(cc)}, nil
+}
+
+// Trigger 触发事件
+func (c *Client) Trigger(ctx context.Context, args *transport.TriggerArgs) (miss bool, err error) {
+	_, err = c.client.Trigger(ctx, &pb.TriggerRequest{
+		Event: int32(args.Event),
+		GID:   args.GID,
+		UID:   args.UID,
+	})
+
+	miss = status.Code(err) == code.NotFoundSession
+
+	return
+}
+
+// Deliver 投递消息
+func (c *Client) Deliver(ctx context.Context, args *transport.DeliverArgs) (miss bool, err error) {
+	_, err = c.client.Deliver(ctx, &pb.DeliverRequest{
+		GID: args.GID,
+		NID: args.NID,
+		CID: args.CID,
+		UID: args.UID,
+		Message: &pb.Message{
+			Seq:    args.Message.Seq,
+			Route:  args.Message.Route,
+			Buffer: args.Message.Buffer,
+		},
+	}, grpc.UseCompressor(gzip.Name))
+
+	miss = status.Code(err) == code.NotFoundSession
+
+	return
+}
