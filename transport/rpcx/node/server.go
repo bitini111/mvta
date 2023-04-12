@@ -3,7 +3,6 @@ package node
 import (
 	"context"
 	"github.com/bitini111/mvta/transport"
-	"github.com/bitini111/mvta/transport/rpcx/gate"
 	"github.com/bitini111/mvta/transport/rpcx/internal/code"
 	"github.com/bitini111/mvta/transport/rpcx/internal/protocol"
 	"github.com/bitini111/mvta/transport/rpcx/internal/server"
@@ -21,7 +20,7 @@ func NewServer(provider transport.NodeProvider, opts *server.Options) (*server.S
 		return nil, err
 	}
 
-	err = s.RegisterSystemService(ServicePath, &endpoint{provider: provider}, []string{ServicePath, gate.ServicePath})
+	err = s.RegisterService(ServicePath, &endpoint{provider: provider})
 	if err != nil {
 		return nil, err
 	}

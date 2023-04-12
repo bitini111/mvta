@@ -2,12 +2,13 @@ package config
 
 import (
 	"flag"
+
 	"github.com/bitini111/mvta/env"
 	value "github.com/bitini111/mvta/utils/xvalue"
 )
 
 const (
-	mvtaConfigEnvName = "DUE_CONFIG"
+	mvtaConfigEnvName = "MVTA_CONFIG"
 	defaultConfigPath = "./config"
 )
 

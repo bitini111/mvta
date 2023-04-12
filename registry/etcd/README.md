@@ -1,4 +1,4 @@
-# due-registry-etcd
+# mvta-registry-etcd
 
 ### 1.功能
 
@@ -13,7 +13,7 @@
 1.安装
 
 ```shell
-go get github.com/dobyte/due/registry/etcd@latest
+go get github.com/bitini111/mvta/registry/etcd@latest
 ```
 
 2.开始使用
@@ -25,10 +25,10 @@ import (
 	"context"
 	"time"
 	
-	"github.com/dobyte/due/cluster"
-	"github.com/dobyte/due/log"
-	"github.com/dobyte/due/registry"
-	"github.com/dobyte/due/registry/etcd"
+	"github.com/bitini111/mvta/cluster"
+	"github.com/bitini111/mvta/log"
+	"github.com/bitini111/mvta/registry"
+	"github.com/bitini111/mvta/registry/etcd"
 )
 
 func main() {

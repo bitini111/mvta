@@ -2,10 +2,8 @@ package gate
 
 import (
 	"context"
-	ep "github.com/bitini111/mvta/internal/endpoint"
 	"github.com/bitini111/mvta/session"
 	"github.com/bitini111/mvta/transport"
-	cli "github.com/bitini111/mvta/transport/grpc/internal/client"
 	"github.com/bitini111/mvta/transport/grpc/internal/code"
 	"github.com/bitini111/mvta/transport/grpc/internal/pb"
 	"google.golang.org/grpc"
@@ -17,15 +15,8 @@ type Client struct {
 	client pb.GateClient
 }
 
-func NewClient(ep *ep.Endpoint, opts *cli.Options) (*Client, error) {
-	target := "direct://" + ep.Address()
-
-	cc, err := cli.Dial(target, opts)
-	if err != nil {
-		return nil, err
-	}
-
-	return &Client{client: pb.NewGateClient(cc)}, nil
+func NewClient(cc *grpc.ClientConn) *Client {
+	return &Client{client: pb.NewGateClient(cc)}
 }
 
 // Bind 绑定用户与连接

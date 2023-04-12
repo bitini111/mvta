@@ -9,7 +9,6 @@ import (
 	"github.com/bitini111/mvta/transport/rpcx/internal/code"
 	"github.com/bitini111/mvta/transport/rpcx/internal/protocol"
 	"github.com/bitini111/mvta/transport/rpcx/internal/server"
-	"github.com/bitini111/mvta/transport/rpcx/node"
 )
 
 const (
@@ -29,7 +28,7 @@ func NewServer(provider transport.GateProvider, opts *server.Options) (*server.S
 		return nil, err
 	}
 
-	err = s.RegisterSystemService(ServicePath, &endpoint{provider: provider}, []string{ServicePath, node.ServicePath})
+	err = s.RegisterService(ServicePath, &endpoint{provider: provider})
 	if err != nil {
 		return nil, err
 	}
