@@ -219,10 +219,15 @@ func (c *serverConn) read() {
 		if len(msg) == 0 {
 			continue
 		}
-
-		if c.connMgr.server.receiveHandler != nil {
-			c.connMgr.server.receiveHandler(c, msg, msgType)
+		req := &chRead{
+			conn:    c,
+			msg:     msg,
+			msgType: msgType,
 		}
+		c.connMgr.SendMsgToTaskQueue(req)
+		//if c.connMgr.server.receiveHandler != nil {
+		//	c.connMgr.server.receiveHandler(c, msg, msgType)
+		//}
 	}
 }
 

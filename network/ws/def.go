@@ -1,6 +1,9 @@
 package ws
 
-import "github.com/gorilla/websocket"
+import (
+	"github.com/bitini111/mvta/network"
+	"github.com/gorilla/websocket"
+)
 
 const (
 	closeSig        int = iota // 关闭信号
@@ -20,6 +23,12 @@ const (
 
 type chWrite struct {
 	typ     int
+	msg     []byte
+	msgType int
+}
+
+type chRead struct {
+	conn    network.Conn
 	msg     []byte
 	msgType int
 }

@@ -11,6 +11,8 @@ const (
 	defaultServerPath                   = "/"
 	defaultServerMaxMsgLen              = 1024
 	defaultServerMaxConnNum             = 5000
+	defaultServerMaxWorkSize            = 10
+	defaultServerMaxTaskLen             = 1024
 	defaultServerCheckOrigin            = "*"
 	defaultServerHeartbeatCheck         = false
 	defaultServerHeartbeatCheckInterval = 10
@@ -23,6 +25,8 @@ const (
 	defaultServerPathKey                   = "config.network.ws.server.path"
 	defaultServerMaxMsgLenKey              = "config.network.ws.server.maxMsgLen"
 	defaultServerMaxConnNumKey             = "config.network.ws.server.maxConnNum"
+	defaultServerMaxWorkSizeKey            = "config.network.ws.server.maxWorkSize"
+	defaultServerMaxTaskLenKey             = "config.network.ws.server.maxWorkSize"
 	defaultServerCheckOriginsKey           = "config.network.ws.server.origins"
 	defaultServerKeyFileKey                = "config.network.ws.server.keyFile"
 	defaultServerCertFileKey               = "config.network.ws.server.certFile"
@@ -40,14 +44,17 @@ type serverOptions struct {
 	addr                   string          // 监听地址
 	maxMsgLen              int             // 最大消息长度（字节），默认1kb
 	maxConnNum             int             // 最大连接数
+	maxWorkSize            int             // 最大任务池数量
+	maxTaskLen             int             // 最大任务数量
 	certFile               string          // 证书文件
 	keyFile                string          // 秘钥文件
 	path                   string          // 路径，默认为"/"
 	msgType                string          // 默认消息类型，text | binary
 	checkOrigin            CheckOriginFunc // 跨域检测
 	enableHeartbeatCheck   bool            // 是否启用心跳检测
-	heartbeatCheckInterval time.Duration   // 心跳检测间隔时间，默认10s
-	handshakeTimeout       time.Duration   // 握手超时时间，默认10s
+	workSize               int
+	heartbeatCheckInterval time.Duration // 心跳检测间隔时间，默认10s
+	handshakeTimeout       time.Duration // 握手超时时间，默认10s
 }
 
 func defaultServerOptions() *serverOptions {
@@ -71,6 +78,8 @@ func defaultServerOptions() *serverOptions {
 		addr:                   config.Get(defaultServerAddrKey, defaultServerAddr).String(),
 		maxMsgLen:              config.Get(defaultServerMaxMsgLenKey, defaultServerMaxMsgLen).Int(),
 		maxConnNum:             config.Get(defaultServerMaxConnNumKey, defaultServerMaxConnNum).Int(),
+		maxWorkSize:            config.Get(defaultServerMaxWorkSizeKey, defaultServerMaxWorkSize).Int(),
+		maxTaskLen:             config.Get(defaultServerMaxTaskLenKey, defaultServerMaxTaskLen).Int(),
 		path:                   config.Get(defaultServerPathKey, defaultServerPath).String(),
 		checkOrigin:            checkOrigin,
 		keyFile:                config.Get(defaultServerKeyFileKey).String(),
