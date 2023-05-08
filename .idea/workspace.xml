@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/network/ws/def.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/ws/def.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network/ws/server_conn.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/ws/server_conn.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network/ws/server_conn_mgr.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/ws/server_conn_mgr.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network/ws/server_options.go" beforeDir="false" afterPath="$PROJECT_DIR$/network/ws/server_options.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
